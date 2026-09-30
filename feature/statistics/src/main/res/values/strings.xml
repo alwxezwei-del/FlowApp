@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="statistics_title">Statistics</string>
+    <string name="statistics_period_week">Week</string>
+    <string name="statistics_period_month">Month</string>
+    <string name="statistics_period_year">Year</string>
+
+    <string name="statistics_focused">Focused</string>
+    <string name="statistics_completion">Completion rate</string>
+    <string name="statistics_completion_detail">%1$d of %2$d tasks completed</string>
+    <string name="statistics_focus_areas">Focus areas</string>
+    <string name="statistics_habit_consistency">Habit consistency</string>
+
+    <string name="statistics_empty_title">Nothing to show yet</string>
+    <string name="statistics_empty_subtitle">Run a focus session or complete a task — the numbers appear here.</string>
+</resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="habits_title">Habits</string>
+    <string name="habits_create_action">New habit</string>
+    <string name="habits_more_actions">More actions</string>
+    <string name="habits_archive">Archive</string>
+    <string name="habits_unarchive">Restore</string>
+    <string name="habits_delete">Delete</string>
+
+    <string name="habits_section_today">Today</string>
+    <string name="habits_section_other">Other days</string>
+    <string name="habits_section_archived">Archived</string>
+
+    <string name="habits_empty_title">No habits yet</string>
+    <string name="habits_empty_subtitle">Add a habit and start building a streak.</string>
+
+    <string name="habit_editor_title_create">New habit</string>
+    <string name="habit_editor_title_edit">Edit habit</string>
+    <string name="habit_editor_save">Save</string>
+    <string name="habit_editor_delete">Delete</string>
+
+    <string name="habit_editor_field_icon">Icon</string>
+    <string name="habit_editor_field_name">Name</string>
+    <string name="habit_editor_field_name_hint">e.g. Read</string>
+    <string name="habit_editor_field_color">Color</string>
+    <string name="habit_editor_field_schedule">Schedule</string>
+    <string name="habit_editor_schedule_daily">Every day</string>
+    <string name="habit_editor_schedule_selected">Selected days</string>
+    <string name="habit_editor_field_target">Target</string>
+    <string name="habit_editor_target_per_day">time(s) per day</string>
+    <string name="habit_editor_target_decrease">Decrease target</string>
+    <string name="habit_editor_target_increase">Increase target</string>
+    <string name="habit_editor_field_reminder">Reminder (optional)</string>
+    <string name="habit_editor_field_notes">Notes (optional)</string>
+    <string name="habit_editor_notes_hint">e.g. Work on personal project</string>
+
+    <string name="habit_details_current_streak">Current streak</string>
+    <string name="habit_details_longest_streak">Longest streak</string>
+    <string name="habit_details_completion_rate">Completion rate</string>
+    <string name="habit_details_days">%1$d days</string>
+    <string name="habit_details_edit">Edit</string>
+    <string name="habit_details_last_30_days">Last 30 days</string>
+</resources>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_title">Settings</string>
+
+    <string name="settings_section_timer">Timer</string>
+    <string name="settings_focus_duration">Focus duration</string>
+    <string name="settings_short_break">Short break</string>
+    <string name="settings_long_break">Long break</string>
+    <string name="settings_minutes">%1$d min</string>
+
+    <string name="settings_section_appearance">Appearance</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_system">System</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_accent">Accent color</string>
+    <string name="settings_start_of_week">Start of week</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_notifications_subtitle">Timer notification and habit reminders</string>
+
+    <string name="settings_section_data">Data</string>
+    <string name="settings_export">Export data</string>
+    <string name="settings_export_subtitle">Save everything as a JSON file</string>
+    <string name="settings_import">Import data</string>
+    <string name="settings_import_subtitle">Restore from a JSON file</string>
+    <string name="settings_reset">Reset application</string>
+    <string name="settings_reset_subtitle">Delete all tasks, habits and sessions</string>
+
+    <string name="settings_reset_dialog_title">Reset application?</string>
+    <string name="settings_reset_dialog_message">All tasks, habits, focus sessions and settings will be deleted. This cannot be undone.</string>
+    <string name="settings_reset_dialog_confirm">Reset</string>
+
+    <string name="settings_export_success">Data exported</string>
+    <string name="settings_export_failed">Could not write the file</string>
+    <string name="settings_import_success">Imported %1$d tasks, %2$d habits, %3$d sessions</string>
+    <string name="settings_import_invalid">This file is not a FlowApp export</string>
+    <string name="settings_import_unsupported">File version %1$d is newer than supported version %2$d</string>
+    <string name="settings_import_failed">Could not read the file</string>
+    <string name="settings_reset_done">Application reset</string>
+
+    <string name="settings_about_app">FlowApp</string>
+    <string name="settings_about_version">Version %1$s</string>
+    <string name="settings_about_offline">All data stays on this device. No account, no backend, no network.</string>
+
+    <string name="settings_export_file_name">flowapp-backup.json</string>
+</resources>
