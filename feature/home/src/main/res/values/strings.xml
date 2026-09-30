@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="today_greeting_morning">Good morning</string>
+    <string name="today_greeting_afternoon">Good afternoon</string>
+    <string name="today_greeting_evening">Good evening</string>
+
+    <string name="today_focus_title">Today focus</string>
+    <string name="today_tasks_title">Tasks</string>
+    <string name="today_habits_title">Habits</string>
+    <string name="today_tasks_progress">%1$d / %2$d completed</string>
+
+    <string name="today_tasks_empty_title">No tasks for this day</string>
+    <string name="today_tasks_empty_subtitle">Add one from the Tasks tab to plan your day.</string>
+    <string name="today_habits_empty_title">No habits scheduled</string>
+    <string name="today_habits_empty_subtitle">Create a habit to start building a streak.</string>
+
+    <string name="today_habits_manage">Manage</string>
+    <string name="today_open_habits">Open habits</string>
+    <string name="today_open_history">Open history</string>
+    <string name="today_open_settings">Open settings</string>
+</resources>

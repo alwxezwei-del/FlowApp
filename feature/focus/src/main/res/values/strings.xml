@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="focus_title">Focus</string>
+    <string name="focus_subtitle">Stay in the zone</string>
+
+    <string name="focus_kind_focus">Focus</string>
+    <string name="focus_kind_short_break">Short break</string>
+    <string name="focus_kind_long_break">Long break</string>
+    <string name="focus_preset_minutes">%1$d min</string>
+    <string name="focus_preset_short_break">Break %1$dm</string>
+    <string name="focus_preset_long_break">Long %1$dm</string>
+    <string name="focus_custom_duration">Custom</string>
+
+    <string name="focus_pick_task">Choose a task</string>
+    <string name="focus_no_task">No task</string>
+    <string name="focus_free_session">Free session</string>
+    <string name="focus_tasks_empty">No active tasks. You can still run a free session.</string>
+
+    <string name="focus_start">Start</string>
+    <string name="focus_pause">Pause</string>
+    <string name="focus_resume">Resume</string>
+    <string name="focus_end_session">End session</string>
+
+    <string name="focus_custom_title">Custom duration</string>
+    <string name="focus_custom_field">Minutes</string>
+    <string name="focus_custom_confirm">Set</string>
+
+    <string name="focus_notification_channel">Focus timer</string>
+    <string name="focus_notification_channel_description">Shows the remaining time of an active focus session</string>
+    <string name="focus_notification_focus">FlowApp · Focus</string>
+    <string name="focus_notification_short_break">FlowApp · Short break</string>
+    <string name="focus_notification_long_break">FlowApp · Long break</string>
+    <string name="focus_notification_remaining">%1$d min remaining</string>
+    <string name="focus_action_pause">Pause</string>
+    <string name="focus_action_resume">Resume</string>
+    <string name="focus_action_stop">Stop</string>
+    <string name="focus_finished_channel">Timer finished</string>
+    <string name="focus_finished_channel_description">Alerts when a focus session or break is over</string>
+    <string name="focus_finished_focus">Focus session complete</string>
+    <string name="focus_finished_break">Break is over</string>
+    <string name="focus_finished_text">%1$d min</string>
+</resources>

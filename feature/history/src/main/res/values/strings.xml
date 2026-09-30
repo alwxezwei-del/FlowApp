@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="history_title">History</string>
+    <string name="history_filter_all">All</string>
+    <string name="history_filter_focus">Focus</string>
+    <string name="history_filter_tasks">Tasks</string>
+    <string name="history_filter_habits">Habits</string>
+
+    <string name="history_empty_title">No activity yet</string>
+    <string name="history_empty_subtitle">Completed tasks, habits and focus sessions show up here.</string>
+</resources>
