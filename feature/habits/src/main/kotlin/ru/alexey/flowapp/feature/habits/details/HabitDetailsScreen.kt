@@ -34,8 +34,10 @@ import ru.alexey.flowapp.core.designsystem.component.FlowIconBadge
 import ru.alexey.flowapp.core.designsystem.component.FlowSecondaryButton
 import ru.alexey.flowapp.core.designsystem.theme.FlowTheme
 import ru.alexey.flowapp.core.model.AccentColor
+import ru.alexey.flowapp.core.model.HabitSchedule
 import ru.alexey.flowapp.core.ui.component.FlowTopBar
 import ru.alexey.flowapp.core.ui.format.formatPercent
+import ru.alexey.flowapp.core.ui.format.shortName
 import ru.alexey.flowapp.feature.habits.R
 
 private const val GRID_COLUMNS = 10
@@ -75,7 +77,7 @@ fun HabitDetailsScreen(
                     Column {
                         Text(text = state.name, style = FlowTheme.typography.title2, color = colors.textMain)
                         Text(
-                            text = state.scheduleLabel,
+                            text = state.schedule.label(),
                             style = FlowTheme.typography.caption,
                             color = colors.textSecondary,
                         )
@@ -177,6 +179,13 @@ private fun DayCell(
     )
 }
 
+@Composable
+private fun HabitSchedule.label(): String =
+    when (this) {
+        HabitSchedule.Daily -> stringResource(R.string.habit_editor_schedule_daily)
+        is HabitSchedule.SelectedDays -> days.sorted().joinToString(", ") { it.shortName() }
+    }
+
 @Preview
 @Composable
 private fun HabitDetailsScreenPreview() {
@@ -187,7 +196,7 @@ private fun HabitDetailsScreenPreview() {
                 name = "Read",
                 icon = "read",
                 accent = AccentColor.BLUE,
-                scheduleLabel = "Every day",
+                schedule = HabitSchedule.Daily,
                 currentStreak = 4,
                 longestStreak = 21,
                 completionRate = 0.87f,

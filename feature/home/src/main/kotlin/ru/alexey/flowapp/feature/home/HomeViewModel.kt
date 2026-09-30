@@ -126,18 +126,17 @@ internal class HomeViewModel(
         )
     }
 
-    private fun HabitDayProgress.toUi(streaks: HabitStreaks?): HabitUi {
-        val progress = "$completedCount/${habit.targetPerDay}"
-        val streak = streaks?.current?.takeIf { it > 0 }?.let { "$it day streak" }
-        return HabitUi(
+    private fun HabitDayProgress.toUi(streaks: HabitStreaks?): HabitUi =
+        HabitUi(
             id = habit.id,
             name = habit.name,
             icon = habit.icon,
             accent = habit.color,
-            subtitle = listOfNotNull(progress, streak).joinToString(SEPARATOR),
+            completedCount = completedCount,
+            target = habit.targetPerDay,
+            streakDays = streaks?.current ?: 0,
             completed = isDone,
         )
-    }
 
     private fun currentGreeting(): Greeting {
         val hour = timeProvider.now().toLocalDateTime(timeProvider.timeZone()).hour

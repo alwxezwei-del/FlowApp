@@ -28,6 +28,8 @@ data class TaskUi(
 
 /**
  * Day habit item
+ *
+ * @param streakDays current streak, 0 = none
  */
 @Immutable
 data class HabitUi(
@@ -35,7 +37,9 @@ data class HabitUi(
     val name: String,
     val icon: String,
     val accent: AccentColor,
-    val subtitle: String,
+    val completedCount: Int,
+    val target: Int,
+    val streakDays: Int,
     val completed: Boolean,
 )
 

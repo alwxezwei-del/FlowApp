@@ -18,12 +18,10 @@ import ru.alexey.flowapp.core.domain.usecase.ObserveHistoryUseCase
 import ru.alexey.flowapp.core.model.AccentColor
 import ru.alexey.flowapp.core.model.DateRange
 import ru.alexey.flowapp.core.model.FlowIconKey
-import ru.alexey.flowapp.core.model.FocusKind
 import ru.alexey.flowapp.core.model.HistoryEvent
 import ru.alexey.flowapp.core.model.HistoryFilter
 import ru.alexey.flowapp.core.ui.BaseComposeViewModel
 import ru.alexey.flowapp.core.ui.format.formatShort
-import ru.alexey.flowapp.core.ui.format.formatShortDate
 import ru.alexey.flowapp.core.ui.format.formatTime
 
 @KoinViewModel
@@ -63,10 +61,11 @@ internal class HistoryViewModel(
             .toSortedMap(compareByDescending { it })
             .map { (date, events) ->
                 HistoryDayUi(
-                    title = when (date) {
-                        today -> TODAY_TITLE
-                        yesterday -> YESTERDAY_TITLE
-                        else -> date.formatShortDate()
+                    date = date,
+                    relative = when (date) {
+                        today -> RelativeDay.TODAY
+                        yesterday -> RelativeDay.YESTERDAY
+                        else -> null
                     },
                     events = events.map { it.toUi(zone) },
                 )
@@ -81,37 +80,30 @@ internal class HistoryViewModel(
             is HistoryEvent.FocusFinished -> HistoryEventUi(
                 id = id,
                 time = time,
-                title = when (kind) {
-                    FocusKind.FOCUS -> "${duration.formatShort()} focus"
-                    FocusKind.SHORT_BREAK -> "${duration.formatShort()} short break"
-                    FocusKind.LONG_BREAK -> "${duration.formatShort()} long break"
-                },
-                subtitle = listOfNotNull(taskTitle, INTERRUPTED_LABEL.takeIf { !completed })
-                    .joinToString(SEPARATOR)
-                    .takeIf { it.isNotEmpty() },
-                kind = HistoryEventKind.FOCUS,
                 icon = FlowIconKey.CODE,
                 accent = AccentColor.PURPLE,
+                content = HistoryEventContent.Focus(
+                    duration = duration.formatShort(),
+                    kind = kind,
+                    taskTitle = taskTitle,
+                    interrupted = !completed,
+                ),
             )
 
             is HistoryEvent.TaskCompleted -> HistoryEventUi(
                 id = id,
                 time = time,
-                title = title,
-                subtitle = categoryName,
-                kind = HistoryEventKind.TASK,
                 icon = FlowIconKey.WORK,
                 accent = color,
+                content = HistoryEventContent.Task(title = title, categoryName = categoryName),
             )
 
             is HistoryEvent.HabitCompleted -> HistoryEventUi(
                 id = id,
                 time = time,
-                title = habitName,
-                subtitle = HABIT_SUBTITLE,
-                kind = HistoryEventKind.HABIT,
                 icon = icon,
                 accent = color,
+                content = HistoryEventContent.Habit(name = habitName),
             )
         }
     }
@@ -119,10 +111,5 @@ internal class HistoryViewModel(
     private companion object {
         const val STOP_TIMEOUT_MILLIS = 5_000L
         const val HISTORY_MONTHS = 3
-        const val TODAY_TITLE = "Today"
-        const val YESTERDAY_TITLE = "Yesterday"
-        const val HABIT_SUBTITLE = "Habit completed"
-        const val INTERRUPTED_LABEL = "interrupted"
-        const val SEPARATOR = " · "
     }
 }

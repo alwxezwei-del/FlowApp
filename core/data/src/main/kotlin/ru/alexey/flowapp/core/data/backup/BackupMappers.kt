@@ -9,7 +9,11 @@ import ru.alexey.flowapp.core.database.entity.TaskEntity
 import ru.alexey.flowapp.core.model.AccentColor
 import ru.alexey.flowapp.core.model.AppSettings
 import ru.alexey.flowapp.core.model.ThemeMode
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
+
+/** Longest interval the timer accepts, same as the custom duration picker */
+private const val MAX_DURATION_MINUTES = 180
 
 internal fun CategoryEntity.toDto() = CategoryDto(id, name, color, icon, sortOrder)
 
@@ -122,9 +126,27 @@ internal fun SettingsDto.toDomain() =
     AppSettings(
         themeMode = ThemeMode.parse(themeMode),
         accentColor = AccentColor.parse(accentColor),
-        focusDuration = focusMinutes.minutes,
-        shortBreakDuration = shortBreakMinutes.minutes,
-        longBreakDuration = longBreakMinutes.minutes,
+        focusDuration = focusMinutes.minutesOr(AppSettings.DefaultFocusDuration),
+        shortBreakDuration = shortBreakMinutes.minutesOr(AppSettings.DefaultShortBreak),
+        longBreakDuration = longBreakMinutes.minutesOr(AppSettings.DefaultLongBreak),
         startOfWeek = DayOfWeek.entries.getOrElse(startOfWeek) { DayOfWeek.MONDAY },
         notificationsEnabled = notificationsEnabled,
     )
+
+private fun Int.minutesOr(default: Duration): Duration = if (this in 1..MAX_DURATION_MINUTES) minutes else default
+
+internal fun BackupDto.withValidReferences(): BackupDto {
+    val categoryIds = categories.mapTo(HashSet()) { it.id }
+    val taskIds = tasks.mapTo(HashSet()) { it.id }
+    val habitIds = habits.mapTo(HashSet()) { it.id }
+
+    return copy(
+        tasks = tasks.map { task ->
+            if (task.categoryId == null || task.categoryId in categoryIds) task else task.copy(categoryId = null)
+        },
+        habitCompletions = habitCompletions.filter { it.habitId in habitIds },
+        focusSessions = focusSessions.map { session ->
+            if (session.taskId == null || session.taskId in taskIds) session else session.copy(taskId = null)
+        },
+    )
+}

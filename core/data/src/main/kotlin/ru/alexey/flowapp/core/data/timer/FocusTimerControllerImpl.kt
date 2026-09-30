@@ -95,28 +95,30 @@ internal class FocusTimerControllerImpl(
             val now = timeProvider.now()
             val elapsed = current.elapsedAt(now).coerceIn(ZERO, session.plannedDuration)
 
-            val focusSession = FocusSession(
-                id = session.id,
-                taskId = session.taskId,
-                categoryId = session.categoryId,
-                kind = session.kind,
-                plannedDuration = session.plannedDuration,
-                actualDuration = elapsed,
-                startedAt = session.startedAt,
-                endedAt = now,
-                completed = completed,
-            ).takeIf { elapsed >= 5.seconds }
+            try {
+                if (elapsed < 5.seconds) return@withContext null
+                val task = session.taskId?.let { taskRepository.getTask(it) }
+                val focusSession = FocusSession(
+                    id = session.id,
+                    taskId = task?.id,
+                    categoryId = session.categoryId,
+                    kind = session.kind,
+                    plannedDuration = session.plannedDuration,
+                    actualDuration = elapsed,
+                    startedAt = session.startedAt,
+                    endedAt = now,
+                    completed = completed,
+                )
 
-            if (focusSession != null) {
                 focusRepository.saveSession(focusSession)
-                if (session.kind == FocusKind.FOCUS) {
-                    session.taskId?.let { completeTaskIfDone(it, elapsed) }
+                if (task != null && session.kind == FocusKind.FOCUS) {
+                    completeTaskIfDone(task.id, elapsed)
                 }
+                focusSession
+            } finally {
+                timerStateStore.clear()
+                _state.value = TimerState.Idle
             }
-
-            timerStateStore.clear()
-            _state.value = TimerState.Idle
-            focusSession
         }
 
     private suspend fun completeTaskIfDone(

@@ -16,15 +16,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.datetime.LocalDate
 import ru.alexey.flowapp.core.designsystem.component.FlowCard
 import ru.alexey.flowapp.core.designsystem.component.FlowIconBadge
 import ru.alexey.flowapp.core.designsystem.component.FlowSegmentedControl
 import ru.alexey.flowapp.core.designsystem.theme.FlowTheme
 import ru.alexey.flowapp.core.model.AccentColor
+import ru.alexey.flowapp.core.model.FocusKind
 import ru.alexey.flowapp.core.model.HistoryFilter
 import ru.alexey.flowapp.core.ui.component.EmptyState
 import ru.alexey.flowapp.core.ui.component.FlowTopBar
 import ru.alexey.flowapp.core.ui.component.SectionHeader
+import ru.alexey.flowapp.core.ui.format.formatShortDate
 
 /** History feed */
 @Composable
@@ -72,10 +75,10 @@ fun HistoryScreen(
             }
 
             state.days.forEach { day ->
-                item(key = "day_${day.title}") {
-                    SectionHeader(title = day.title, modifier = Modifier.fillMaxWidth())
+                item(key = "day_${day.date}") {
+                    SectionHeader(title = day.title(), modifier = Modifier.fillMaxWidth())
                 }
-                item(key = "events_${day.title}") {
+                item(key = "events_${day.date}") {
                     FlowCard(modifier = Modifier.fillMaxWidth()) {
                         Column(verticalArrangement = Arrangement.spacedBy(spacers.x12)) {
                             day.events.forEach { event -> HistoryRow(event = event) }
@@ -102,11 +105,12 @@ private fun HistoryRow(event: HistoryEventUi) {
             modifier = Modifier.width(52.dp),
         )
         FlowIconBadge(iconKey = event.icon, accent = event.accent, size = FlowTheme.spacers.x32)
+        val (title, subtitle) = event.content.texts()
         Column(modifier = Modifier.weight(1f)) {
-            Text(text = event.title, style = FlowTheme.typography.body2, color = colors.textMain)
-            if (event.subtitle != null) {
+            Text(text = title, style = FlowTheme.typography.body2, color = colors.textMain)
+            if (subtitle != null) {
                 Text(
-                    text = event.subtitle,
+                    text = subtitle,
                     style = FlowTheme.typography.caption,
                     color = colors.textSecondary,
                 )
@@ -114,6 +118,40 @@ private fun HistoryRow(event: HistoryEventUi) {
         }
     }
 }
+
+@Composable
+private fun HistoryDayUi.title(): String =
+    when (relative) {
+        RelativeDay.TODAY -> stringResource(R.string.history_today)
+        RelativeDay.YESTERDAY -> stringResource(R.string.history_yesterday)
+        null -> date.formatShortDate()
+    }
+
+/** Title and optional subtitle of a feed row */
+@Composable
+private fun HistoryEventContent.texts(): Pair<String, String?> =
+    when (this) {
+        is HistoryEventContent.Focus -> {
+            val titleRes = when (kind) {
+                FocusKind.FOCUS -> R.string.history_focus
+                FocusKind.SHORT_BREAK -> R.string.history_short_break
+                FocusKind.LONG_BREAK -> R.string.history_long_break
+            }
+            val interruptedLabel = stringResource(R.string.history_interrupted).takeIf { interrupted }
+            val subtitle = listOfNotNull(taskTitle, interruptedLabel)
+                .joinToString(" · ")
+                .takeIf { it.isNotEmpty() }
+            stringResource(titleRes, duration) to subtitle
+        }
+
+        is HistoryEventContent.Task -> {
+            title to categoryName
+        }
+
+        is HistoryEventContent.Habit -> {
+            name to stringResource(R.string.history_habit_completed)
+        }
+    }
 
 private fun HistoryFilter.labelRes(): Int =
     when (this) {
@@ -132,25 +170,27 @@ private fun HistoryScreenPreview() {
                 isLoading = false,
                 days = listOf(
                     HistoryDayUi(
-                        title = "Today",
+                        date = LocalDate(2026, 9, 30),
+                        relative = RelativeDay.TODAY,
                         events = listOf(
                             HistoryEventUi(
-                                "1",
-                                "14:20",
-                                "45m focus",
-                                "Finish Compose navigation",
-                                HistoryEventKind.FOCUS,
-                                "code",
-                                AccentColor.PURPLE,
+                                id = "1",
+                                time = "14:20",
+                                icon = "code",
+                                accent = AccentColor.PURPLE,
+                                content = HistoryEventContent.Focus(
+                                    duration = "45m",
+                                    kind = FocusKind.FOCUS,
+                                    taskTitle = "Finish Compose navigation",
+                                    interrupted = false,
+                                ),
                             ),
                             HistoryEventUi(
-                                "2",
-                                "12:10",
-                                "Walk",
-                                "Habit completed",
-                                HistoryEventKind.HABIT,
-                                "walk",
-                                AccentColor.GREEN,
+                                id = "2",
+                                time = "12:10",
+                                icon = "walk",
+                                accent = AccentColor.GREEN,
+                                content = HistoryEventContent.Habit(name = "Walk"),
                             ),
                         ),
                     ),

@@ -19,8 +19,6 @@ import ru.alexey.flowapp.core.model.AccentColor
 
 /**
  * Habit row: icon, name, day progress and checkbox.
- *
- * @param subtitle e.g. `1/1 · 60 min` or `12 day streak`
  */
 @Composable
 fun HabitRow(

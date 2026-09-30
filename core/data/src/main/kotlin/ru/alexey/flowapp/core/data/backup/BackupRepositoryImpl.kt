@@ -10,6 +10,7 @@ import ru.alexey.flowapp.core.common.TimeProvider
 import ru.alexey.flowapp.core.data.datastore.SettingsStore
 import ru.alexey.flowapp.core.database.FlowDatabase
 import ru.alexey.flowapp.core.domain.repository.BackupRepository
+import ru.alexey.flowapp.core.domain.repository.FocusTimerController
 import ru.alexey.flowapp.core.domain.repository.ImportResult
 
 @Single
@@ -17,6 +18,7 @@ internal class BackupRepositoryImpl(
     private val database: FlowDatabase,
     private val settingsStore: SettingsStore,
     private val timeProvider: TimeProvider,
+    private val timerController: FocusTimerController,
 ) : BackupRepository {
     private val json = Json {
         prettyPrint = true
@@ -41,7 +43,9 @@ internal class BackupRepositoryImpl(
 
     override suspend fun import(rawJson: String): ImportResult =
         withContext(Dispatchers.IO) {
-            val dto = runCatching { json.decodeFromString<BackupDto>(rawJson) }.getOrNull()
+            val dto = runCatching { json.decodeFromString<BackupDto>(rawJson) }
+                .getOrNull()
+                ?.withValidReferences()
                 ?: return@withContext ImportResult.InvalidFile
 
             if (dto.version > BackupDto.CURRENT_VERSION) {
@@ -51,6 +55,7 @@ internal class BackupRepositoryImpl(
                 )
             }
 
+            timerController.stop(completed = false)
             database.withTransaction {
                 clearDatabase()
                 // Order matters: foreign keys require parents before children
@@ -71,6 +76,7 @@ internal class BackupRepositoryImpl(
 
     override suspend fun reset() =
         withContext(Dispatchers.IO) {
+            timerController.stop(completed = false)
             database.withTransaction { clearDatabase() }
             settingsStore.clear()
         }

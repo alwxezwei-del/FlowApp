@@ -132,7 +132,7 @@ class ObserveStatisticsUseCase(
                 val category = categoryId?.let(categoriesById::get)
                 CategoryFocus(
                     categoryId = categoryId,
-                    categoryName = category?.name ?: UNCATEGORIZED,
+                    categoryName = category?.name,
                     color = category?.color ?: AccentColor.Default,
                     duration = duration,
                     share = if (totalSeconds <= 0L) 0f else duration.inWholeSeconds.toFloat() / totalSeconds,
@@ -169,9 +169,5 @@ class ObserveStatisticsUseCase(
                 )
             }.filter { it.scheduledDays > 0 }
             .sortedByDescending { it.rate }
-    }
-
-    private companion object {
-        const val UNCATEGORIZED = "No category"
     }
 }

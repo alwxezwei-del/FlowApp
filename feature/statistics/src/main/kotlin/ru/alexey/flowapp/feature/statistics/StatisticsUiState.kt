@@ -19,11 +19,13 @@ data class FocusBarUi(
 
 /**
  * Breakdown row with a progress bar
+ *
+ * @param title null for focus without a category
  */
 @Immutable
 data class DistributionRowUi(
     val id: String,
-    val title: String,
+    val title: String?,
     val value: String,
     val share: Float,
     val color: AccentColor,

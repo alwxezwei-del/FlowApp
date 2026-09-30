@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DatePeriod
-import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
@@ -18,7 +17,6 @@ import ru.alexey.flowapp.core.domain.repository.HabitRepository
 import ru.alexey.flowapp.core.domain.usecase.HabitStreakCalculator
 import ru.alexey.flowapp.core.model.Habit
 import ru.alexey.flowapp.core.model.HabitCompletion
-import ru.alexey.flowapp.core.model.HabitSchedule
 import ru.alexey.flowapp.core.ui.BaseComposeViewModel
 
 @KoinViewModel
@@ -80,7 +78,7 @@ internal class HabitDetailsViewModel(
             name = name,
             icon = icon,
             accent = color,
-            scheduleLabel = schedule.label(),
+            schedule = schedule,
             currentStreak = streaks.current,
             longestStreak = streaks.longest,
             completionRate = streaks.completionRate,
@@ -88,27 +86,8 @@ internal class HabitDetailsViewModel(
         )
     }
 
-    private fun HabitSchedule.label(): String =
-        when (this) {
-            HabitSchedule.Daily -> {
-                "Every day"
-            }
-
-            is HabitSchedule.SelectedDays -> {
-                DayOfWeek.entries
-                    .filter { it in days }
-                    .joinToString(", ") {
-                        it.name
-                            .take(SHORT_DAY_LENGTH)
-                            .lowercase()
-                            .replaceFirstChar(Char::uppercase)
-                    }
-            }
-        }
-
     private companion object {
         const val STOP_TIMEOUT_MILLIS = 5_000L
         const val GRID_DAYS = 30
-        const val SHORT_DAY_LENGTH = 3
     }
 }

@@ -8,7 +8,8 @@ import ru.alexey.flowapp.core.ui.UiState
 /**
  * Habit list item
  *
- * @param subtitle №day streak
+ * @param completedToday completions today
+ * @param streakDays current streak, 0 = none
  */
 @Immutable
 data class HabitListItemUi(
@@ -16,7 +17,9 @@ data class HabitListItemUi(
     val name: String,
     val icon: String,
     val accent: AccentColor,
-    val subtitle: String,
+    val completedToday: Int,
+    val target: Int,
+    val streakDays: Int,
     val completed: Boolean,
     val scheduledToday: Boolean,
     val archived: Boolean,

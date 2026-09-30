@@ -19,10 +19,9 @@ import ru.alexey.flowapp.core.designsystem.theme.FlowTheme
 import ru.alexey.flowapp.core.model.AccentColor
 
 /**
- * Task row shared by Today and Tasks: checkbox, title, "category · estimate" subtitle.
+ * Task row shared by Today and Tasks: checkbox, title, category, estimate, subtitle
  *
- * @param subtitle e.g. `Work · 45m`, `null` = none
- * @param progress focus progress `0f..1f`, shown while the task is in progress
+ * @param progress focus progress 0-1f, shown while the task is in progress
  * @param trailing optional trailing actions slot
  */
 @Composable

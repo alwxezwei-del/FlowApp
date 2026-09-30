@@ -32,6 +32,7 @@ import ru.alexey.flowapp.core.ui.component.HabitRow
 import ru.alexey.flowapp.core.ui.component.SectionHeader
 import ru.alexey.flowapp.core.ui.component.TaskRow
 import ru.alexey.flowapp.core.ui.format.formatFullDate
+import ru.alexey.flowapp.core.ui.format.habitProgressSubtitle
 import ru.alexey.flowapp.feature.home.views.FocusSummaryCard
 import ru.alexey.flowapp.feature.home.views.WeekStrip
 
@@ -191,7 +192,7 @@ private fun HomeContent(
                         name = habit.name,
                         iconKey = habit.icon,
                         accent = habit.accent,
-                        subtitle = habit.subtitle,
+                        subtitle = habitProgressSubtitle(habit.completedCount, habit.target, habit.streakDays),
                         completed = habit.completed,
                         onToggle = { onAction(HomeUiAction.ToggleHabit(habit.id, it)) },
                         onClick = { onOpenHabit(habit.id) },
@@ -272,8 +273,8 @@ private fun HomeScreenPreview() {
                 completedTasks = 3,
                 totalTasks = 5,
                 habits = listOf(
-                    HabitUi("h1", "Walk", "walk", AccentColor.GREEN, "1/1 · 12 day streak", true),
-                    HabitUi("h2", "Read", "read", AccentColor.BLUE, "0/1 · 4 day streak", false),
+                    HabitUi("h1", "Walk", "walk", AccentColor.GREEN, 1, 1, 12, true),
+                    HabitUi("h2", "Read", "read", AccentColor.BLUE, 0, 1, 4, false),
                 ),
             ),
             onAction = {},

@@ -3,6 +3,7 @@ package ru.alexey.flowapp.feature.habits.details
 import androidx.compose.runtime.Immutable
 import kotlinx.datetime.LocalDate
 import ru.alexey.flowapp.core.model.AccentColor
+import ru.alexey.flowapp.core.model.HabitSchedule
 import ru.alexey.flowapp.core.ui.UiAction
 import ru.alexey.flowapp.core.ui.UiState
 
@@ -21,7 +22,7 @@ data class HabitDetailsUiState(
     val name: String = "",
     val icon: String = "",
     val accent: AccentColor = AccentColor.Default,
-    val scheduleLabel: String = "",
+    val schedule: HabitSchedule = HabitSchedule.Daily,
     val currentStreak: Int = 0,
     val longestStreak: Int = 0,
     val completionRate: Float = 0f,

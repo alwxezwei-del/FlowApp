@@ -42,11 +42,12 @@ data class DailyFocus(
  * Focused time per category
  *
  * @param categoryId null = uncategorized
+ * @param categoryName null for uncategorized or deleted categories
  * @param share 0-1f
  */
 data class CategoryFocus(
     val categoryId: String?,
-    val categoryName: String,
+    val categoryName: String?,
     val color: AccentColor,
     val duration: Duration,
     val share: Float,

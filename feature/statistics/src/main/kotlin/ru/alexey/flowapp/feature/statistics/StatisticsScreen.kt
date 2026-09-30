@@ -14,6 +14,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import kotlinx.datetime.DatePeriod
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.plus
 import ru.alexey.flowapp.core.designsystem.component.FlowBar
 import ru.alexey.flowapp.core.designsystem.component.FlowBarChart
 import ru.alexey.flowapp.core.designsystem.component.FlowCard
@@ -26,8 +29,12 @@ import ru.alexey.flowapp.core.model.StatisticsPeriod
 import ru.alexey.flowapp.core.ui.component.EmptyState
 import ru.alexey.flowapp.core.ui.component.FlowTopBar
 import ru.alexey.flowapp.core.ui.component.SectionHeader
+import ru.alexey.flowapp.core.ui.format.dayInitial
 import ru.alexey.flowapp.core.ui.format.formatPercent
+import ru.alexey.flowapp.core.ui.format.formatShort
+import ru.alexey.flowapp.core.ui.format.formatShortDate
 import ru.alexey.flowapp.core.ui.format.formatSignedPercent
+import kotlin.time.Duration.Companion.minutes
 
 /** Statistics */
 @Composable
@@ -187,7 +194,7 @@ private fun DistributionRow(row: DistributionRowUi) {
         ) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    text = row.title,
+                    text = row.title ?: stringResource(R.string.statistics_no_category),
                     style = FlowTheme.typography.body2,
                     color = colors.textMain,
                     modifier = Modifier.weight(1f),
@@ -213,14 +220,25 @@ private fun StatisticsPeriod.labelRes(): Int =
 @Preview
 @Composable
 private fun StatisticsScreenPreview() {
+    val today = LocalDate(2026, 9, 30)
+    val weekStart = LocalDate(2026, 9, 28)
+    val focusMinutes = listOf(25, 40, 95, 35, 70, 20, 55)
+
     FlowTheme {
         StatisticsScreen(
             state = StatisticsUiState(
                 isLoading = false,
+                hasData = true,
                 totalFocus = "8h 42m",
                 focusTrend = 0.12f,
-                bars = listOf("M", "T", "W", "T", "F", "S", "S").mapIndexed { index, label ->
-                    FocusBarUi(label, (index + 1) * 20f, "$label, 20m", index == 2)
+                bars = focusMinutes.mapIndexed { index, minutes ->
+                    val date = weekStart.plus(DatePeriod(days = index))
+                    FocusBarUi(
+                        label = date.dayInitial(),
+                        minutes = minutes.toFloat(),
+                        description = "${date.formatShortDate()}, ${minutes.minutes.formatShort()}",
+                        highlighted = date == today,
+                    )
                 },
                 completionRate = 0.78f,
                 completedTasks = 18,

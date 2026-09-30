@@ -82,13 +82,14 @@ internal class HabitsViewModel(
         streaks: Map<String, HabitStreaks>,
     ): HabitListItemUi {
         val done = todayCompletions[id] ?: 0
-        val streak = streaks[id]?.current?.takeIf { it > 0 }?.let { "$it day streak" }
         return HabitListItemUi(
             id = id,
             name = name,
             icon = icon,
             accent = color,
-            subtitle = listOfNotNull("$done/$targetPerDay", streak).joinToString(SEPARATOR),
+            completedToday = done,
+            target = targetPerDay,
+            streakDays = streaks[id]?.current ?: 0,
             completed = done >= targetPerDay,
             scheduledToday = schedule.isScheduledOn(today),
             archived = archived,
@@ -97,6 +98,5 @@ internal class HabitsViewModel(
 
     private companion object {
         const val STOP_TIMEOUT_MILLIS = 5_000L
-        const val SEPARATOR = " · "
     }
 }

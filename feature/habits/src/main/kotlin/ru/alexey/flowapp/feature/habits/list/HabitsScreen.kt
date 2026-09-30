@@ -35,6 +35,7 @@ import ru.alexey.flowapp.core.ui.component.EmptyState
 import ru.alexey.flowapp.core.ui.component.FlowTopBar
 import ru.alexey.flowapp.core.ui.component.HabitRow
 import ru.alexey.flowapp.core.ui.component.SectionHeader
+import ru.alexey.flowapp.core.ui.format.habitProgressSubtitle
 import ru.alexey.flowapp.feature.habits.R
 
 /** Habits screen */
@@ -141,7 +142,7 @@ private fun HabitListRow(
         name = habit.name,
         iconKey = habit.icon,
         accent = habit.accent,
-        subtitle = habit.subtitle,
+        subtitle = habitProgressSubtitle(habit.completedToday, habit.target, habit.streakDays),
         completed = habit.completed,
         onToggle = { onAction(HabitsUiAction.ToggleHabit(habit.id, it)) },
         onClick = { onOpenHabit(habit.id) },
@@ -208,8 +209,8 @@ private fun HabitsScreenPreview() {
             state = HabitsUiState(
                 isLoading = false,
                 todayHabits = listOf(
-                    HabitListItemUi("1", "Workout", "workout", AccentColor.GREEN, "0/1", false, true, false),
-                    HabitListItemUi("2", "Read", "read", AccentColor.BLUE, "1/1 · 4 day streak", true, true, false),
+                    HabitListItemUi("1", "Workout", "workout", AccentColor.GREEN, 0, 1, 0, false, true, false),
+                    HabitListItemUi("2", "Read", "read", AccentColor.BLUE, 1, 1, 4, true, true, false),
                 ),
             ),
             onAction = {},

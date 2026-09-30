@@ -8,4 +8,12 @@
 
     <string name="history_empty_title">No activity yet</string>
     <string name="history_empty_subtitle">Completed tasks, habits and focus sessions show up here.</string>
+
+    <string name="history_today">Today</string>
+    <string name="history_yesterday">Yesterday</string>
+    <string name="history_focus">%1$s focus</string>
+    <string name="history_short_break">%1$s short break</string>
+    <string name="history_long_break">%1$s long break</string>
+    <string name="history_interrupted">interrupted</string>
+    <string name="history_habit_completed">Habit completed</string>
 </resources>

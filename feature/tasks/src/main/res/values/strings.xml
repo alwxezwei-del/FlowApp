@@ -26,7 +26,7 @@
     <string name="task_editor_save">Save</string>
 
     <string name="task_editor_field_title">Title</string>
-    <string name="task_editor_field_title_hint">e.g. Finish Compose navigation</string>
+    <string name="task_editor_field_title_hint">e.g. Something</string>
     <string name="task_editor_field_description">Notes</string>
     <string name="task_editor_field_description_hint">Optional details</string>
     <string name="task_editor_field_category">Category</string>

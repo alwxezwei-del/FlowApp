@@ -19,6 +19,8 @@ import ru.alexey.flowapp.core.ui.BaseComposeViewModel
 import ru.alexey.flowapp.core.ui.format.dayInitial
 import ru.alexey.flowapp.core.ui.format.formatShort
 import ru.alexey.flowapp.core.ui.format.formatShortDate
+import ru.alexey.flowapp.core.ui.format.fullName
+import ru.alexey.flowapp.core.ui.format.initial
 import kotlin.time.Duration.Companion.ZERO
 
 @KoinViewModel
@@ -92,9 +94,9 @@ internal class StatisticsViewModel(
                     .map { (month, days) ->
                         val total = days.fold(ZERO) { acc, daily -> acc + daily.duration }
                         FocusBarUi(
-                            label = month.name.take(1),
+                            label = month.initial(),
                             minutes = total.inWholeSeconds / SECONDS_IN_MINUTE,
-                            description = "${month.name.lowercase().replaceFirstChar(Char::uppercase)}, ${total.formatShort()}",
+                            description = "${month.fullName()}, ${total.formatShort()}",
                             highlighted = month == today.month,
                         )
                     }

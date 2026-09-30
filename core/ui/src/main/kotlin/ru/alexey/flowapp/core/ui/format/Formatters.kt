@@ -1,10 +1,14 @@
 package ru.alexey.flowapp.core.ui.format
 
+import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
+import kotlinx.datetime.Month
 import kotlinx.datetime.format.MonthNames
 import kotlinx.datetime.format.Padding
 import kotlinx.datetime.format.char
+import java.time.format.TextStyle
+import java.util.Locale
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 import kotlin.time.Duration
@@ -21,7 +25,6 @@ fun Duration.formatShort(): String {
     }
 }
 
-// `12m / 45m` with an estimate, `12m` without one, `45m` if nothing focused yet
 fun Duration.formatFocusProgress(estimate: Duration?): String? {
     val focused = takeIf { it.isPositive() }?.formatShort()
     val planned = estimate?.formatShort()
@@ -57,10 +60,25 @@ fun LocalTime.formatTime(): String = TimeFormat.format(this)
 /** Full date: Wednesday, Sep 30 */
 fun LocalDate.formatFullDate(): String = FullDateFormat.format(this)
 
-/** Short date: Mon, 12 May */
 fun LocalDate.formatShortDate(): String = ShortDateFormat.format(this)
 
-fun LocalDate.dayInitial(): String = dayOfWeek.name.take(1)
+fun LocalDate.dayInitial(): String = dayOfWeek.displayName(TextStyle.NARROW_STANDALONE)
+
+fun DayOfWeek.shortName(): String = displayName(TextStyle.SHORT_STANDALONE)
+
+fun Month.initial(): String = displayName(TextStyle.NARROW_STANDALONE)
+
+fun Month.fullName(): String = displayName(TextStyle.FULL_STANDALONE)
+
+private fun DayOfWeek.displayName(style: TextStyle): String =
+    java.time.DayOfWeek
+        .of(ordinal + 1)
+        .getDisplayName(style, Locale.getDefault())
+
+private fun Month.displayName(style: TextStyle): String =
+    java.time.Month
+        .of(ordinal + 1)
+        .getDisplayName(style, Locale.getDefault())
 
 private fun Long.pad(): String = toString().padStart(2, '0')
 

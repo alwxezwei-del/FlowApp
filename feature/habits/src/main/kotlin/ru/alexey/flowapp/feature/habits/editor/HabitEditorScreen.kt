@@ -56,6 +56,7 @@ import ru.alexey.flowapp.core.model.AccentColor
 import ru.alexey.flowapp.core.model.FlowIconKey
 import ru.alexey.flowapp.core.ui.component.FlowTopBar
 import ru.alexey.flowapp.core.ui.format.formatTime
+import ru.alexey.flowapp.core.ui.format.shortName
 import ru.alexey.flowapp.feature.habits.R
 
 /** Create/edit habit screen */
@@ -144,7 +145,7 @@ fun HabitEditorScreen(
                 Section(title = "") {
                     DayOfWeek.entries.forEach { day ->
                         FlowChip(
-                            text = day.name.take(SHORT_DAY_LENGTH),
+                            text = day.shortName(),
                             selected = day in state.selectedDays,
                             onClick = { onAction(HabitEditorUiAction.DayToggled(day)) },
                         )
@@ -385,7 +386,6 @@ private fun ReminderTimeDialog(
 private fun Int.toLocalTime(): LocalTime = LocalTime(this / MINUTES_IN_HOUR, this % MINUTES_IN_HOUR)
 
 private const val MINUTES_IN_HOUR = 60
-private const val SHORT_DAY_LENGTH = 3
 
 /** 19:00 default reminder. */
 private const val DEFAULT_REMINDER_MINUTE = 19 * MINUTES_IN_HOUR
