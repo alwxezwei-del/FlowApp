@@ -23,7 +23,10 @@ Built as a portfolio project alongside my job search, using the same architectur
 - **Preferences:** DataStore
 - **Dependency injection:** Koin
 - **Build:** Gradle (Kotlin DSL), custom `build-logic` convention plugins
-
+- **Presentation:** MVVM + MVI (unidirectional data flow) — each screen
+  exposes a single immutable `UiState` via `StateFlow`, takes user input as
+  sealed `UiAction`s through one `onAction()` entry point, and emits one-off
+  `UiEvent`s (navigation, messages) separately
 ## Roadmap
 
 - Migrate navigation to **Navigation 3**
