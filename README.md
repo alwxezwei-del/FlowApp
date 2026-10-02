@@ -10,7 +10,7 @@ Built as a portfolio project alongside my job search, using the same architectur
 
 ## Features
 
-- **Tasks** — create, organize and track to-dos
+- **Tasks** - create, organize and track to-dos
 - **Habits** — recurring habit tracking
 - **Focus timer** — a Pomodoro-style focus session timer
 - **Statistics** — insights and progress over time
@@ -25,7 +25,7 @@ Built as a portfolio project alongside my job search, using the same architectur
 - **Build:** Gradle (Kotlin DSL), custom `build-logic` convention plugins
 - **Presentation:** MVVM + MVI (unidirectional data flow) — each screen
   exposes a single immutable `UiState` via `StateFlow`, takes user input as
-  sealed `UiAction`s through one `onAction()` entry point, and emits one-off
+  sealed `UiAction`s through one `onAction()` entry point, and emits one off
   `UiEvent`s (navigation, messages) separately
 ## Roadmap
 
